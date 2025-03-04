@@ -260,6 +260,80 @@
             animation: bounceIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         
+        .book-now-btn {
+            position: absolute;
+            background-color: #8B0000;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .book-now-btn:hover {
+            background-color: #5a0000;
+            transform: translateY(-50%) scale(1.05);
+        }
+        
+        .explore-btn {
+            position: absolute;
+            background-color: #8B0000; /* Red color to match the book-now-btn */
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 0;
+            animation: fadeIn 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards 1s;
+            z-index: 100;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        /* Desktop positioning - bottom center */
+        @media (min-width: 769px) {
+            .explore-btn {
+                bottom: 15%;
+                left: 45%;
+            }
+            
+            .explore-btn:hover {
+                background-color: #5a0000; /* Darker red on hover */
+                transform: translateX(-50%) scale(1.05);
+            }
+        }
+        
+        /* Mobile positioning - top center (above chair) */
+        @media (max-width: 768px) {
+            .explore-btn {
+                top: 15%;
+                left: 30%;
+            }
+            
+            .explore-btn:hover {
+                background-color: #5a0000; /* Darker red on hover */
+                transform: translateX(-50%) scale(1.05);
+            }
+        }
+        
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) translateX(-50%);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) translateX(-50%);
+            }
+        }
+        
         .calendly-modal {
             position: fixed;
             top: 0;
@@ -357,44 +431,62 @@
         @media (max-width: 768px) {
             .hero {
                 flex-direction: column;
-                justify-content: center;
-                gap: 2rem;
+                justify-content: flex-start;
+                padding-top: 80px;
             }
             
             .logo-container {
                 top: 10px;
                 left: 10px;
+                animation: rollIn 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
             }
             
-            .logo-container:hover .logo-bubble {
+            .logo-bubble {
                 width: 240px;
+                border-radius: 30px;
+            }
+            
+            .logo-full {
+                max-width: 200px;
             }
             
             .chair-container {
-                width: 80%;
-                height: 40%;
-                margin-right: 0;
+                width: 85%;
+                height: 50%;
+                margin: 0;
+                top: 20%;
+                left: 0;
+                z-index: 95;
+                position: absolute;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            .chair-img {
+                max-height: 100%;
+                max-width: 100%;
+                transform: scale(1.2);
+                filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5));
             }
             
             .chair-tooltip {
-                right: auto;
-                top: -50px;
-                left: 50%;
-                transform: translateX(-50%) scale(0);
+                display: none;
             }
             
-            .chair-tooltip:after {
-                left: 50%;
-                top: auto;
-                bottom: -10px;
-                transform: translateX(-50%);
-                border-width: 10px 10px 0;
-                border-color: white transparent transparent;
+            .book-now-btn {
+                display: block;
+                position: absolute;
+                right: 5%;
+                top: 50%;
+                opacity: 1;
+                animation: fadeIn 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards 0.8s;
             }
             
-            .chair-container:hover .chair-tooltip {
-                transform: translateX(-50%) scale(1);
-            }
+
+            
+
+
             
             .calendly-container {
                 width: 95%;
@@ -404,11 +496,12 @@
             .gallery-container {
                 position: relative;
                 left: 0;
-                top: 0;
+                top: 60%;
                 transform: none;
                 width: 90%;
                 height: 300px;
-                margin: 20px auto;
+                margin: 0 auto;
+                z-index: 90;
             }
             
             .gallery-item {
@@ -545,7 +638,10 @@
         <div class="chair-container">
             <div class="chair-tooltip">Take a Seat</div>
             <img src="chair.png" alt="Elegant Chair" class="chair-img">
+            <div class="book-now-btn">Book Now</div>
         </div>
+        
+        <div class="explore-btn">Explore The Studio</div>
     </div>
     
     <div class="calendly-modal">
@@ -569,12 +665,17 @@
             const galleryPrev = document.querySelector('.gallery-prev');
             const galleryNext = document.querySelector('.gallery-next');
             const galleryNav = document.querySelector('.gallery-nav');
+            const bookNowBtn = document.querySelector('.book-now-btn');
+            const exploreBtn = document.querySelector('.explore-btn');
             
             // Get the boundaries of the chair container
             const getContainerBounds = () => chairContainer.getBoundingClientRect();
             
             // Handle mouse movement for chair magnetic effect
             document.addEventListener('mousemove', (e) => {
+                // Only apply effect on desktop
+                if (window.innerWidth <= 768) return;
+                
                 const bounds = getContainerBounds();
                 const containerCenterX = bounds.left + bounds.width / 2;
                 const containerCenterY = bounds.top + bounds.height / 2;
@@ -611,13 +712,20 @@
             
             // Reset transform when mouse leaves window
             document.addEventListener('mouseleave', () => {
+                if (window.innerWidth <= 768) return;
+                
                 chairImg.style.transform = 'translate(0, 0)';
                 chairTooltip.style.transform = 'scale(0)';
                 logoContainer.style.transform = 'translate(0, 0)';
             });
             
-            // Open Calendly modal when chair is clicked
+            // Open Calendly modal when chair or book now button is clicked
             chairContainer.addEventListener('click', () => {
+                calendlyModal.classList.add('active');
+            });
+            
+            bookNowBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
                 calendlyModal.classList.add('active');
             });
             
@@ -631,6 +739,18 @@
             calendlyModal.addEventListener('click', (e) => {
                 if (e.target === calendlyModal) {
                     calendlyModal.classList.remove('active');
+                }
+            });
+            
+            // Explore button functionality
+            exploreBtn.addEventListener('click', () => {
+                // Smooth scroll to gallery section on mobile
+                if (window.innerWidth <= 768) {
+                    galleryContainer.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    // On desktop, maybe open a different section or modal
+                    // For now, just scroll to gallery
+                    galleryContainer.scrollIntoView({ behavior: 'smooth' });
                 }
             });
             
@@ -832,6 +952,19 @@
             }
             
             initGallery();
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const exploreBtn = document.querySelector('.explore-btn');
+            
+            exploreBtn.addEventListener('click', () => {
+                // Add functionality for the explore button
+                // For example, smooth scroll to a section or open a modal
+                console.log('Explore button clicked');
+                
+                // Example: Scroll to a section
+                // document.querySelector('#studio-section').scrollIntoView({ behavior: 'smooth' });
+            });
         });
     </script>
 </body>
