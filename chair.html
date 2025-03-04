@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RedVelvetX Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Playfair Display', serif;
+            overflow-x: hidden;
+        }
+        
+        .hero {
+            height: 100vh;
+            width: 100%;
+            background-image: url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+        
+        .logo-container {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            cursor: pointer;
+            animation: rollIn 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        
+        .logo-bubble {
+            width: 45px;
+            height: 60px;
+            background-color: #000;
+            border-radius: 50%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            transition: all 0.6s ease;
+            overflow: hidden;
+            padding-left: 15px;
+        }
+        
+        .logo-container:hover .logo-bubble {
+            width: 280px;
+            border-radius: 30px;
+        }
+        
+        .logo-text {
+            color: white;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+        }
+        
+        .logo-letter {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .logo-full {
+            font-size: 1.5rem;
+            max-width: 0;
+            overflow: hidden;
+            transition: max-width 0.6s ease;
+            margin-left: 5px;
+        }
+        
+        .logo-container:hover .logo-full {
+            max-width: 200px;
+        }
+        
+        .gallery-container {
+            position: absolute;
+            left: 8%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 500px;
+            height: 400px;
+            overflow: hidden;
+            border: 2px solid black;
+            border-radius: 10px;
+            z-index: 90;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .gallery-container:hover {
+            width: 600px;
+            height: 430px;
+        }
+        
+        .gallery-scroll {
+            display: flex;
+            width: max-content;
+            transition: transform 1s ease;
+        }
+        
+        .gallery-item {
+            position: relative;
+            width: 280px;
+            height: 400px;
+            margin-right: 20px;
+            overflow: hidden;
+        }
+        
+        .gallery-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-text {
+            position: absolute;
+            bottom: -80px;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px;
+            transition: bottom 0.5s ease;
+            box-sizing: border-box;
+        }
+        
+        .gallery-item:hover .gallery-img {
+            transform: translateY(-40px) scale(1.05);
+        }
+        
+        .gallery-item:hover .gallery-text {
+            bottom: 0;
+        }
+        
+        .chair-container {
+            width: 40%;
+            height: 70%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 17%;
+            top: 6%;
+            left: 43%;
+            position: relative;
+            opacity: 0;
+            animation: fadeIn 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards 0.6s;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .chair-img {
+            max-height: 80%;
+            max-width: 80%;
+            object-fit: contain;
+            transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.5s ease;
+            transform-origin: center;
+            filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0));
+        }
+        
+        .chair-container:hover .chair-img {
+            transform: scale(1.1) translateY(-10px);
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8));
+        }
+        
+        .chair-tooltip {
+            position: absolute;
+            right: -20px;
+            top: 30%;
+            transform: scale(0);
+            background-color: white;
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease;
+            pointer-events: none;
+            white-space: nowrap;
+            z-index: 10;
+        }
+        
+        .chair-tooltip:after {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-width: 10px 10px 10px 0;
+            border-style: solid;
+            border-color: transparent white transparent transparent;
+        }
+        
+        .chair-container:hover .chair-tooltip {
+            transform: scale(1);
+            opacity: 1;
+            animation: bounceIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .calendly-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+        
+        .calendly-modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .calendly-container {
+            width: 80%;
+            height: 80%;
+            background-color: white;
+            border-radius: 10px;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .calendly-modal.active .calendly-container {
+            transform: scale(1);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            background-color: #8B0000;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 1001;
+            transition: background-color 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            background-color: #5a0000;
+        }
+        
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes rollIn {
+            0% {
+                transform: translateX(-100px) rotate(-360deg);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0) rotate(0deg);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                justify-content: center;
+                gap: 2rem;
+            }
+            
+            .logo-container {
+                top: 10px;
+                left: 10px;
+            }
+            
+            .logo-container:hover .logo-bubble {
+                width: 240px;
+            }
+            
+            .chair-container {
+                width: 80%;
+                height: 40%;
+                margin-right: 0;
+            }
+            
+            .chair-tooltip {
+                right: auto;
+                top: -50px;
+                left: 50%;
+                transform: translateX(-50%) scale(0);
+            }
+            
+            .chair-tooltip:after {
+                left: 50%;
+                top: auto;
+                bottom: -10px;
+                transform: translateX(-50%);
+                border-width: 10px 10px 0;
+                border-color: white transparent transparent;
+            }
+            
+            .chair-container:hover .chair-tooltip {
+                transform: translateX(-50%) scale(1);
+            }
+            
+            .calendly-container {
+                width: 95%;
+                height: 90%;
+            }
+            
+            .gallery-container {
+                position: relative;
+                left: 0;
+                top: 0;
+                transform: none;
+                width: 90%;
+                height: 300px;
+                margin: 20px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="logo-container">
+            <div class="logo-bubble">
+                <div class="logo-text">
+                    <span class="logo-letter">R</span>
+                    <span class="logo-full">edVelvetX Studio</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="gallery-container">
+            <div class="gallery-scroll">
+                <div class="gallery-item">
+                    <img src="scroll/1.png" alt="Gallery Image 1" class="gallery-img">
+                    <div class="gallery-text">
+                        <h3>Elegant Design</h3>
+                        <p>Our signature style combines modern aesthetics with timeless elegance.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="scroll/2.png" alt="Gallery Image 2" class="gallery-img">
+                    <div class="gallery-text">
+                        <h3>Luxury Materials</h3>
+                        <p>We use only the finest materials to create our exclusive pieces.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="scroll/3.png" alt="Gallery Image 3" class="gallery-img">
+                    <div class="gallery-text">
+                        <h3>Artistic Vision</h3>
+                        <p>Each creation is a unique expression of artistic craftsmanship.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="scroll/4.png" alt="Gallery Image 4" class="gallery-img">
+                    <div class="gallery-text">
+                        <h3>Bespoke Creations</h3>
+                        <p>Custom designs tailored to your unique preferences and space.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="scroll/5.png" alt="Gallery Image 5" class="gallery-img">
+                    <div class="gallery-text">
+                        <h3>Innovative Concepts</h3>
+                        <p>Pushing boundaries with innovative design concepts and techniques.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="scroll/6.png" alt="Gallery Image 6" class="gallery-img">
+                    <div class="gallery-text">
+                        <h3>Timeless Appeal</h3>
+                        <p>Designs that transcend trends and remain beautiful for generations.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="scroll/7.png" alt="Gallery Image 7" class="gallery-img">
+                    <div class="gallery-text">
+                        <h3>Exquisite Details</h3>
+                        <p>Attention to the finest details creates truly exceptional pieces.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="scroll/8.png" alt="Gallery Image 8" class="gallery-img">
+                    <div class="gallery-text">
+                        <h3>Harmonious Balance</h3>
+                        <p>Perfect balance between form, function, and aesthetic beauty.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="scroll/9.png" alt="Gallery Image 9" class="gallery-img">
+                    <div class="gallery-text">
+                        <h3>Refined Luxury</h3>
+                        <p>Understated elegance that speaks of sophistication and taste.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="scroll/10.png" alt="Gallery Image 10" class="gallery-img">
+                    <div class="gallery-text">
+                        <h3>Creative Excellence</h3>
+                        <p>Award-winning designs that showcase creative excellence.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="scroll/11.png" alt="Gallery Image 11" class="gallery-img">
+                    <div class="gallery-text">
+                        <h3>Signature Style</h3>
+                        <p>Distinctive design language that defines our unique approach.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="scroll/12.png" alt="Gallery Image 12" class="gallery-img">
+                    <div class="gallery-text">
+                        <h3>Artisan Craftsmanship</h3>
+                        <p>Handcrafted by master artisans with decades of experience.</p>
+                    </div>
+                </div>
+                <!-- Duplicate first few items to create seamless loop -->
+                <div class="gallery-item">
+                    <img src="scroll/1.png" alt="Gallery Image 1" class="gallery-img">
+                    <div class="gallery-text">
+                        <h3>Elegant Design</h3>
+                        <p>Our signature style combines modern aesthetics with timeless elegance.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="scroll/2.png" alt="Gallery Image 2" class="gallery-img">
+                    <div class="gallery-text">
+                        <h3>Luxury Materials</h3>
+                        <p>We use only the finest materials to create our exclusive pieces.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chair-container">
+            <div class="chair-tooltip">Take a Seat</div>
+            <img src="chair.png" alt="Elegant Chair" class="chair-img">
+        </div>
+    </div>
+    
+    <div class="calendly-modal">
+        <div class="calendly-container">
+            <div class="close-modal">&times;</div>
+            <div class="calendly-inline-widget" data-url="https://calendly.com/rubansingh126/30min" style="min-width:320px;height:100%;"></div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const chairImg = document.querySelector('.chair-img');
+            const chairContainer = document.querySelector('.chair-container');
+            const logoContainer = document.querySelector('.logo-container');
+            const calendlyModal = document.querySelector('.calendly-modal');
+            const closeModal = document.querySelector('.close-modal');
+            const chairTooltip = document.querySelector('.chair-tooltip');
+            const galleryScroll = document.querySelector('.gallery-scroll');
+            
+            // Get the boundaries of the chair container
+            const getContainerBounds = () => chairContainer.getBoundingClientRect();
+            
+            // Handle mouse movement for chair magnetic effect
+            document.addEventListener('mousemove', (e) => {
+                const bounds = getContainerBounds();
+                const containerCenterX = bounds.left + bounds.width / 2;
+                const containerCenterY = bounds.top + bounds.height / 2;
+                
+                // Calculate distance from mouse to container center
+                const distanceX = e.clientX - containerCenterX;
+                const distanceY = e.clientY - containerCenterY;
+                
+                // Calculate distance from mouse to container
+                const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+                
+                // Maximum distance for effect (in pixels)
+                const maxDistance = 500;
+                
+                if (distance < maxDistance) {
+                    // Calculate movement strength (stronger when closer)
+                    const strength = 0.15 * (1 - distance / maxDistance);
+                    
+                    // Apply movement to chair
+                    chairImg.style.transform = `translate(${distanceX * strength}px, ${distanceY * strength}px)`;
+                    
+                    // Move tooltip with chair but with less intensity
+                    chairTooltip.style.transform = `translate(${distanceX * strength * 0.3}px, ${distanceY * strength * 0.3}px) scale(1)`;
+                    
+                    // Subtle hover effect on logo
+                    logoContainer.style.transform = `translate(${distanceX * 0.02}px, ${distanceY * 0.02}px)`;
+                } else {
+                    // Reset position when mouse is far away
+                    chairImg.style.transform = 'translate(0, 0)';
+                    chairTooltip.style.transform = 'scale(0)';
+                    logoContainer.style.transform = 'translate(0, 0)';
+                }
+            });
+            
+            // Reset transform when mouse leaves window
+            document.addEventListener('mouseleave', () => {
+                chairImg.style.transform = 'translate(0, 0)';
+                chairTooltip.style.transform = 'scale(0)';
+                logoContainer.style.transform = 'translate(0, 0)';
+            });
+            
+            // Open Calendly modal when chair is clicked
+            chairContainer.addEventListener('click', () => {
+                calendlyModal.classList.add('active');
+            });
+            
+            // Close Calendly modal
+            closeModal.addEventListener('click', (e) => {
+                e.stopPropagation();
+                calendlyModal.classList.remove('active');
+            });
+            
+            // Close modal when clicking outside the container
+            calendlyModal.addEventListener('click', (e) => {
+                if (e.target === calendlyModal) {
+                    calendlyModal.classList.remove('active');
+                }
+            });
+            
+            // Gallery auto-scroll with pause
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            const itemWidth = galleryItems[0].offsetWidth + parseInt(getComputedStyle(galleryItems[0]).marginRight);
+            let currentIndex = 0;
+            
+            function scrollGallery() {
+                if (currentIndex >= galleryItems.length - 2) {
+                    // Reset to beginning when reaching end (accounting for duplicated items)
+                    currentIndex = 0;
+                    galleryScroll.style.transition = 'none';
+                    galleryScroll.style.transform = `translateX(0)`;
+                    // Force reflow to make the transition reset work
+                    void galleryScroll.offsetWidth;
+                    galleryScroll.style.transition = 'transform 1s ease';
+                } else {
+                    currentIndex++;
+                    galleryScroll.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+                }
+                
+                // Wait for 1 second before scrolling to next image
+                setTimeout(scrollGallery, 2000); // 1s for transition + 1s pause
+            }
+            
+            // Start the gallery scrolling after a short delay
+            setTimeout(scrollGallery, 1000);
+            
+            // Pause scrolling when hovering over gallery
+            galleryScroll.addEventListener('mouseenter', () => {
+                galleryScroll.style.transition = 'transform 0.3s ease';
+            });
+            
+            galleryScroll.addEventListener('mouseleave', () => {
+                galleryScroll.style.transition = 'transform 1s ease';
+            });
+        });
+    </script>
+</body>
+</html>
