@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RedVelvetX Studio - Blog</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Playfair Display', serif;
+            overflow-x: hidden;
+        }
+        
+        .hero {
+            height: 100vh;
+            width: 100%;
+            background-image: url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+        
+        .logo-container {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            cursor: pointer;
+            animation: rollIn 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        
+        .logo-bubble {
+            width: 45px;
+            height: 60px;
+            background-color: #000;
+            border-radius: 50%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            transition: all 0.6s ease;
+            overflow: hidden;
+            padding-left: 15px;
+        }
+        
+        .logo-container:hover .logo-bubble {
+            width: 280px;
+            border-radius: 30px;
+        }
+        
+        .logo-text {
+            color: white;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+        }
+        
+        .logo-letter {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .logo-full {
+            font-size: 1.5rem;
+            max-width: 0;
+            overflow: hidden;
+            transition: max-width 0.6s ease;
+            margin-left: 5px;
+        }
+        
+        .logo-container:hover .logo-full {
+            max-width: 200px;
+        }
+        
+        /* Blog section */
+        .blog-section {
+            padding: 4rem 2rem;
+            background: url('scroll/5.png') center/cover fixed;
+            position: relative;
+            min-height: 100vh;
+            padding-top: 100px;
+        }
+
+        .blog-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            z-index: 1;
+        }
+
+        .blog-container {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .blog-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .blog-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blog-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .blog-card:hover .blog-image img {
+            transform: scale(1.1);
+        }
+
+        .blog-content {
+            padding: 1.5rem;
+        }
+
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            color: #8B0000;
+            font-size: 0.9rem;
+        }
+
+        .blog-title {
+            font-size: 1.5rem;
+            margin: 0 0 1rem;
+            color: #333;
+        }
+
+        .blog-excerpt {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .read-more {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: #8B0000;
+            color: white;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .read-more:hover {
+            background: #600000;
+            transform: translateX(5px);
+        }
+        
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            right: 0;
+            padding: 2rem;
+            display: flex;
+            gap: 2rem;
+            transform: translateY(-100%);
+            animation: slideInHeader 1.5s forwards;
+            z-index: 40;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-bottom-left-radius: 10px;
+        }
+
+        .header a {
+            text-decoration: none;
+            color: #000;
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .header a:hover, .header a.hovered {
+            color: #8B0000;
+            transform: scale(1.1);
+        }
+        
+        /* Title container */
+        .title-container {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            padding-left: 5rem;
+            transform: translateX(-100%);
+            animation: slideInTitle 1.5s forwards;
+        }
+        
+        h1 {
+            font-size: 6.5rem;
+            font-weight: 1000;
+            margin: 0;
+            letter-spacing: -1px;
+            line-height: 1;
+            transition: color 0.3s ease;
+        }
+
+        h1.hovered {
+            color: #8B0000;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 2rem 0 1rem;
+            color: #8B0000;
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.5rem;
+            color: #333;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            color: #444;
+        }
+        
+        /* Animations */
+        @keyframes slideInHeader {
+            0% {
+                transform: translateY(-100%);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInTitle {
+            0% {
+                transform: translateX(-100%) translateY(-50%);
+            }
+            100% {
+                transform: translateX(0) translateY(-50%);
+            }
+        }
+
+        @keyframes slideInLogo {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes rollIn {
+            0% {
+                transform: translateX(-100%) rotate(-120deg);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0) rotate(0deg);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Logo -->
+    <div class="logo-container">
+        <a href="index.html">
+            <div class="logo-bubble">
+                <div class="logo-text">
+                    <span class="logo-letter">R</span>
+                    <span class="logo-full">edVelvetX Studio</span>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="index.html#about" class="nav-link">About</a>
+        <a href="index.html#reviews" class="nav-link">Reviews</a>
+        <a href="#" class="nav-link">Blog</a>
+    </div>
+
+    <!-- Title Container -->
+    <div class="title-container">
+        <h1>Our Blog</h1>
+    </div>
+
+    <!-- Blog Section -->
+    <section class="blog-section" id="blog">
+        <div class="blog-container">
+            <h2 style="color: #8B0000; text-align: center; margin-bottom: 2rem;">Photography Insights</h2>
+            <div class="blog-grid">
+                <!-- Blog Post 1 -->
+                <article class="blog-card">
+                    <div class="blog-image" style="background-image: url('scroll/12.png')">
+                        <div class="blog-meta">
+                            <span>Studio Lighting</span>
+                            <span>June 15, 2024</span>
+                        </div>
+                    </div>
+                    <div class="blog-content">
+                        <h3 class="blog-title">Mastering Studio Lighting Techniques</h3>
+                        <p class="blog-excerpt">Learn professional lighting setups for portrait photography with our comprehensive guide to studio equipment...</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                </article>
+
+                <!-- Blog Post 2 -->
+                <article class="blog-card">
+                    <div class="blog-image" style="background-image: url('scroll/2.png')">
+                        <div class="blog-meta">
+                            <span>Post-Processing</span>
+                            <span>June 14, 2024</span>
+                        </div>
+                    </div>
+                    <div class="blog-content">
+                        <h3 class="blog-title">Advanced Photo Editing Workflow</h3>
+                        <p class="blog-excerpt">Discover our step-by-step post-processing workflow using Adobe Lightroom and Photoshop...</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                </article>
+
+                <!-- Blog Post 3 -->
+                <article class="blog-card">
+                    <div class="blog-image" style="background-image: url('scroll/9.png')">
+                        <div class="blog-meta">
+                            <span>Gear Guide</span>
+                            <span>June 13, 2024</span>
+                        </div>
+                    </div>
+                    <div class="blog-content">
+                        <h3 class="blog-title">Essential Camera Gear for Studio Work</h3>
+                        <p class="blog-excerpt">Complete guide to building your perfect studio photography kit on any budget...</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                </article>
+
+                <!-- Blog Post 4 -->
+                <article class="blog-card">
+                    <div class="blog-image" style="background-image: url('scroll/7.png')">
+                        <div class="blog-meta">
+                            <span>Portrait Tips</span>
+                            <span>June 12, 2024</span>
+                        </div>
+                    </div>
+                    <div class="blog-content">
+                        <h3 class="blog-title">Posing Techniques for Studio Portraits</h3>
+                        <p class="blog-excerpt">Professional tips for directing subjects and capturing natural expressions...</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                </article>
+
+                <!-- Blog Post 5 -->
+                <article class="blog-card">
+                    <div class="blog-image" style="background-image: url('scroll/3.png')">
+                        <div class="blog-meta">
+                            <span>Product Photography</span>
+                            <span>June 11, 2024</span>
+                        </div>
+                    </div>
+                    <div class="blog-content">
+                        <h3 class="blog-title">Product Photography in Studio Settings</h3>
+                        <p class="blog-excerpt">How to create stunning product images using basic studio equipment...</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                </article>
+
+                <!-- Blog Post 6 -->
+                <article class="blog-card">
+                    <div class="blog-image" style="background-image: url('scroll/6.png')">
+                        <div class="blog-meta">
+                            <span>Behind the Scenes</span>
+                            <span>June 10, 2024</span>
+                        </div>
+                    </div>
+                    <div class="blog-content">
+                        <h3 class="blog-title">A Day in Our Studio: Behind the Lens</h3>
+                        <p class="blog-excerpt">See how we plan and execute professional photo shoots from start to finish...</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Blog Card Animations
+        document.addEventListener('DOMContentLoaded', () => {
+            // Handle mouse movement for hover effects
+            document.addEventListener('mousemove', (e) => {
+                // Header links hover effect
+                const headerLinks = document.querySelectorAll('.header a');
+                headerLinks.forEach(link => {
+                    const rect = link.getBoundingClientRect();
+                    const linkCenterX = rect.left + rect.width / 2;
+                    const linkCenterY = rect.top + rect.height / 2;
+                    
+                    const distanceX = e.clientX - linkCenterX;
+                    const distanceY = e.clientY - linkCenterY;
+                    const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+                    
+                    const maxDistance = 100;
+                    
+                    if (distance < maxDistance) {
+                        link.classList.add('hovered');
+                        const moveStrength = 0.2 * (1 - distance / maxDistance);
+                        link.style.transform = `translate(${distanceX * moveStrength}px, ${distanceY * moveStrength}px) scale(1.1)`;
+                    } else {
+                        link.classList.remove('hovered');
+                        link.style.transform = '';
+                    }
+                });
+                
+                // Title hover effect
+                const titleElements = document.querySelectorAll('.title-container h1');
+                titleElements.forEach(title => {
+                    const rect = title.getBoundingClientRect();
+                    const titleCenterX = rect.left + rect.width / 2;
+                    const titleCenterY = rect.top + rect.height / 2;
+                    
+                    const distanceX = e.clientX - titleCenterX;
+                    const distanceY = e.clientY - titleCenterY;
+                    const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+                    
+                    title.classList.toggle('hovered', distance < 150);
+                });
+            });
+
+            // Blog card animations
+            const blogObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.blog-card').forEach((card, index) => {
+                            setTimeout(() => {
+                                card.classList.add('visible');
+                            }, index * 150);
+                        });
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            blogObserver.observe(document.querySelector('.blog-section'));
+        });
+    </script>
+</body>
+</html>
