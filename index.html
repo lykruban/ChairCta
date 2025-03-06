@@ -84,7 +84,7 @@
             top: 50%;
             transform: translateY(-50%);
             width: 40%;
-            height: 60%;
+            height: 50%;
             overflow: hidden;
             border: 2px solid black;
             border-radius: 10px;
@@ -94,9 +94,12 @@
             touch-action: pan-x;
         }
         
-        .gallery-container:hover {
-            width: 45%;
-            height: 65%;
+        /* Only apply hover effect on non-mobile devices */
+        @media (min-width: 769px) {
+            .gallery-container:hover {
+                width: 45%;
+                /* Removed height increase to only expand width on hover */
+            }
         }
         
         .gallery-scroll {
