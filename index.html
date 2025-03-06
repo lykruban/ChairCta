@@ -370,6 +370,11 @@
                 background-color: #5a0000; /* Darker red on hover */
                 transform: translateX(-50%) scale(1.05);
             }
+            
+            /* Hide header navigation on mobile */
+            .header-nav {
+                display: none;
+            }
         }
         
         @keyframes fadeIn {
@@ -497,16 +502,6 @@
             
             .logo-full {
                 max-width: 200px;
-            }
-            
-            .header-nav {
-                top: 70px;
-                padding: 8px 15px;
-                gap: 15px;
-            }
-            
-            .nav-link {
-                font-size: 0.9rem;
             }
             
             .chair-container {
