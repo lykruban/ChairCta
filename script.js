@@ -5,6 +5,7 @@ const scrollIndicator = document.querySelector('.scroll-indicator');
 const tiltElements = Array.from(document.querySelectorAll('[data-tilt]'));
 const canvas = document.getElementById('particleCanvas');
 const bubbleField = document.getElementById('bubbleField');
+const gearField = document.getElementById('gearField');
 const bookTriggers = document.querySelectorAll('.book-trigger');
 const floatingBookTrigger = document.querySelector('[data-floating-book]');
 const bookModal = document.querySelector('.book-modal');
@@ -16,13 +17,15 @@ const chatForm = document.querySelector('[data-chat-form]');
 const chatLog = document.querySelector('[data-chat-log]');
 const counters = document.querySelectorAll('[data-count]');
 const bookingForm = document.querySelector('.book-modal__form');
-const parallaxSections = document.querySelectorAll('[data-parallax]');
 
 const setChatExpanded = (open) => {
   chatLaunchers.forEach((launcher) => launcher.setAttribute('aria-expanded', open ? 'true' : 'false'));
 };
 
 setChatExpanded(false);
+
+document.body.classList.remove('no-js');
+document.body.classList.add('is-primed');
 
 if (yearEl) {
   yearEl.textContent = new Date().getFullYear();
@@ -73,6 +76,54 @@ if (bubbleField) {
 
   for (let i = 0; i < bubbleTotal; i += 1) {
     createBubble();
+  }
+}
+
+if (gearField) {
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const spawnGears = () => {
+    gearField.innerHTML = '';
+    const gearTotal = prefersReduced ? 6 : Math.min(26, Math.floor(window.innerWidth / 42));
+
+    for (let i = 0; i < gearTotal; i += 1) {
+      const gear = document.createElement('span');
+      gear.className = 'gear';
+      const size = Math.random() * 160 + 90;
+      const floatDuration = Math.random() * 18 + 24;
+      const spinDuration = Math.random() * 14 + 18;
+      const depth = Math.random();
+      const opacity = 0.4 + Math.random() * 0.4;
+
+      gear.style.setProperty('--gear-size', `${size}px`);
+      gear.style.setProperty('--gear-depth', depth);
+      gear.style.setProperty('--gear-float-duration', `${floatDuration}s`);
+      gear.style.setProperty('--gear-rotate-duration', `${spinDuration}s`);
+      gear.style.setProperty('--gear-spin-delay', `-${Math.random() * spinDuration}s`);
+      gear.style.left = `${Math.random() * 100}%`;
+      gear.style.top = `${Math.random() * 100}%`;
+      gear.style.opacity = opacity.toFixed(2);
+
+      if (!prefersReduced) {
+        gear.style.animationDelay = `-${Math.random() * floatDuration}s`;
+      }
+
+      if (Math.random() > 0.5) {
+        gear.classList.add('gear--reverse');
+      }
+
+      gearField.appendChild(gear);
+    }
+  };
+
+  spawnGears();
+
+  if (!prefersReduced) {
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(spawnGears, 260);
+    });
   }
 }
 
@@ -225,42 +276,6 @@ window.addEventListener('scroll', () => {
   scrollIndicator.style.opacity = hide ? '0' : '0.75';
   scrollIndicator.style.pointerEvents = hide ? 'none' : 'auto';
 });
-
-let lastKnownScroll = 0;
-let ticking = false;
-const parallaxElements = document.querySelectorAll('.bg-layer');
-const background = document.querySelector('.background');
-
-const parallax = (scrollPos) => {
-  parallaxElements.forEach((layer, index) => {
-    const depth = (index + 1) * 18;
-    layer.style.setProperty('--scroll-y', `${scrollPos / depth}px`);
-  });
-  if (bubbleField) {
-    bubbleField.style.transform = `translate3d(0, ${scrollPos * -0.08}px, 0)`;
-  }
-  if (background) {
-    background.style.setProperty('--bg-parallax', `${scrollPos * -0.05}`);
-  }
-  parallaxSections.forEach((section, index) => {
-    const depth = parseFloat(section.dataset.parallaxDepth || '') || (12 + index * 4);
-    const offset = scrollPos / depth;
-    section.style.setProperty('--section-parallax', `${-offset}`);
-  });
-};
-
-window.addEventListener('scroll', () => {
-  lastKnownScroll = window.scrollY;
-  if (!ticking) {
-    window.requestAnimationFrame(() => {
-      parallax(lastKnownScroll);
-      ticking = false;
-    });
-    ticking = true;
-  }
-}, { passive: true });
-
-parallax(window.scrollY || 0);
 
 const toggleBookModal = (show) => {
   if (!bookModal) return;
@@ -422,11 +437,14 @@ let autoChatTimer = window.setTimeout(() => {
 }, 5000);
 
 let stageInitialized = false;
+window.setTimeout(() => {
+  if (!stageInitialized) {
+    document.body.classList.remove('is-primed');
+  }
+}, 4000);
 const beginStageSequence = () => {
   if (stageInitialized) return;
   stageInitialized = true;
-  document.body.classList.add('is-primed');
-  parallax(window.scrollY || 0);
   window.setTimeout(() => {
     document.body.classList.add('stage-background');
   }, 40);
