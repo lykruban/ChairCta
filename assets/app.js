@@ -1,10 +1,12 @@
 // Three.js background scene
 const canvas = document.getElementById('scene');
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setClearColor(0xf7f7f7, 1);
 
 const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0xf7f7f7, 0.018);
 const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.z = 48;
 
@@ -44,11 +46,12 @@ const createGear = () => {
   });
 
   const material = new THREE.MeshStandardMaterial({
-    color: 0xf5f5f5,
-    metalness: 0.9,
-    roughness: 0.35,
+    color: 0xdedede,
+    metalness: 0.85,
+    roughness: 0.28,
+    emissive: 0x0,
     transparent: true,
-    opacity: 0.4
+    opacity: 0.55
   });
 
   const gear = new THREE.Mesh(extrude, material);
@@ -68,11 +71,12 @@ const createBubble = () => {
   const material = new THREE.MeshPhysicalMaterial({
     color: 0xffffff,
     transparent: true,
-    opacity: 0.22 + Math.random() * 0.2,
-    roughness: 0.05,
-    transmission: 0.9,
-    thickness: 0.8,
-    clearcoat: 0.9
+    opacity: 0.3 + Math.random() * 0.25,
+    roughness: 0.08,
+    transmission: 0.94,
+    thickness: 1.6,
+    clearcoat: 0.9,
+    reflectivity: 0.9
   });
   const bubble = new THREE.Mesh(geometry, material);
   bubble.position.set(
@@ -90,11 +94,11 @@ const bubbleGroup = new THREE.Group();
 scene.add(gearGroup);
 scene.add(bubbleGroup);
 
-for (let i = 0; i < 18; i++) {
+for (let i = 0; i < 24; i++) {
   gearGroup.add(createGear());
 }
 
-for (let i = 0; i < 28; i++) {
+for (let i = 0; i < 40; i++) {
   bubbleGroup.add(createBubble());
 }
 
@@ -114,10 +118,10 @@ const animate = () => {
   });
 
   bubbleGroup.children.forEach((bubble, idx) => {
-    bubble.position.y += 0.03 + Math.sin(frame + idx) * 0.012;
-    bubble.position.x += Math.sin(frame * 0.4 + idx) * 0.01;
-    if (bubble.position.y > 50) {
-      bubble.position.y = -50;
+    bubble.position.y += 0.045 + Math.sin(frame + idx) * 0.014;
+    bubble.position.x += Math.sin(frame * 0.45 + idx) * 0.012;
+    if (bubble.position.y > 65) {
+      bubble.position.y = -65;
     }
   });
 
@@ -159,6 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const bookingModal = document.querySelector('.modal');
   const chatbot = document.querySelector('.chatbot');
+  const chatbotLog = chatbot.querySelector('.chat-log');
   const openBookingButtons = document.querySelectorAll('[data-booking-open]');
   const openChatButtons = document.querySelectorAll('[data-chat-open]');
   const closeButtons = document.querySelectorAll('[data-close]');
@@ -186,16 +191,35 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   );
 
+  const appendMessage = (content, sender = 'bot') => {
+    const wrapper = document.createElement('div');
+    wrapper.className = `chat-message ${sender}`;
+    wrapper.innerHTML = `<span>${content}</span>`;
+    chatbotLog.appendChild(wrapper);
+    chatbotLog.scrollTop = chatbotLog.scrollHeight;
+  };
+
+  const showTyping = () => {
+    const typing = document.createElement('div');
+    typing.className = 'chat-message bot typing';
+    typing.innerHTML = '<span><i></i><i></i><i></i></span>';
+    chatbotLog.appendChild(typing);
+    chatbotLog.scrollTop = chatbotLog.scrollHeight;
+    return typing;
+  };
+
+  const removeTyping = (node) => {
+    if (node && node.parentNode) {
+      node.parentNode.removeChild(node);
+    }
+  };
+
+  appendMessage('Hi, I’m Byron. I can introduce our automations, prepare a call, or just nerd out on AI strategy.', 'bot');
+  appendMessage('Need to see how the voice concierge works or want to jump straight to a discovery call?', 'bot');
+
   setTimeout(() => {
     if (!chatbot.classList.contains('active')) {
       chatbot.classList.add('active');
-      const log = chatbot.querySelector('.chat-log');
-      const message = document.createElement('div');
-      message.className = 'chat-message';
-      message.innerHTML =
-        "Hey there! I'm Byron, your AI concierge. Want me to orchestrate a discovery call or walk you through our capabilities?";
-      log.appendChild(message);
-      log.scrollTop = log.scrollHeight;
     }
   }, 5000);
 
@@ -206,21 +230,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const value = textarea.value.trim();
     if (!value) return;
 
-    const log = chatbot.querySelector('.chat-log');
-    const userMessage = document.createElement('div');
-    userMessage.className = 'chat-message';
-    userMessage.textContent = value;
-    log.appendChild(userMessage);
+    appendMessage(value, 'user');
     textarea.value = '';
-    log.scrollTop = log.scrollHeight;
+
+    const typing = showTyping();
 
     setTimeout(() => {
-      const reply = document.createElement('div');
-      reply.className = 'chat-message';
-      reply.innerHTML =
-        "Thanks! I've locked that in. Expect an invite shortly — or I can loop in our automation strategist if you'd like a deeper dive.";
-      log.appendChild(reply);
-      log.scrollTop = log.scrollHeight;
+      removeTyping(typing);
+      appendMessage(
+        "Appreciate that! I’ll earmark a strategist and follow up with a calendar invite. Want a quick overview of our launch sprints while you wait?",
+        'bot'
+      );
     }, 1200);
   });
 
@@ -235,4 +255,42 @@ document.addEventListener('DOMContentLoaded', () => {
     success.classList.add('visible');
     bookingForm.reset();
   });
+
+  const cursor = document.querySelector('.cursor-dot');
+  const ring = document.querySelector('.cursor-ring');
+  let pointerX = window.innerWidth / 2;
+  let pointerY = window.innerHeight / 2;
+
+  const renderCursor = () => {
+    cursor.style.transform = `translate3d(${pointerX}px, ${pointerY}px, 0)`;
+    ring.style.transform = `translate3d(${pointerX}px, ${pointerY}px, 0)`;
+  };
+
+  document.addEventListener('pointermove', (event) => {
+    pointerX = event.clientX;
+    pointerY = event.clientY;
+    renderCursor();
+  });
+
+  document.addEventListener('pointerdown', () => {
+    cursor.classList.add('active');
+    ring.classList.add('active');
+  });
+
+  document.addEventListener('pointerup', () => {
+    cursor.classList.remove('active');
+    ring.classList.remove('active');
+  });
+
+  const interactiveElements = document.querySelectorAll('a, button, input, textarea, .service-card, .glass-panel, .showcase-card');
+  interactiveElements.forEach((el) => {
+    el.addEventListener('mouseenter', () => {
+      ring.classList.add('hover');
+    });
+    el.addEventListener('mouseleave', () => {
+      ring.classList.remove('hover');
+    });
+  });
+
+  renderCursor();
 });
