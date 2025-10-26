@@ -18,8 +18,6 @@ const counters = document.querySelectorAll('[data-count]');
 const bookingForm = document.querySelector('.book-modal__form');
 const parallaxSections = document.querySelectorAll('[data-parallax]');
 
-document.body.classList.add('is-primed');
-
 const setChatExpanded = (open) => {
   chatLaunchers.forEach((launcher) => launcher.setAttribute('aria-expanded', open ? 'true' : 'false'));
 };
@@ -262,27 +260,37 @@ window.addEventListener('scroll', () => {
   }
 }, { passive: true });
 
+parallax(window.scrollY || 0);
+
 const toggleBookModal = (show) => {
   if (!bookModal) return;
   bookModal.setAttribute('aria-hidden', show ? 'false' : 'true');
   bookModal.classList.toggle('book-modal--open', show);
   document.body.classList.toggle('no-scroll', show);
   if (show) {
-    bookingForm?.reset();
-    const existingConfirmation = bookModal.querySelector('.book-modal__confirmation');
-    existingConfirmation?.remove();
-    const submitButton = bookingForm?.querySelector('button[type="submit"]');
-    if (submitButton) {
-      submitButton.disabled = false;
-      submitButton.textContent = 'Have Byron Call Me';
+    if (bookingForm) {
+      bookingForm.reset();
+      const existingConfirmation = bookModal.querySelector('.book-modal__confirmation');
+      if (existingConfirmation) {
+        existingConfirmation.remove();
+      }
+      const submitButton = bookingForm.querySelector('button[type="submit"]');
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Have Byron Call Me';
+      }
     }
     const focusable = bookModal.querySelector('input, textarea');
-    focusable?.focus({ preventScroll: true });
+    if (focusable && typeof focusable.focus === 'function') {
+      focusable.focus({ preventScroll: true });
+    }
   }
 };
 
 const handleBookTrigger = (event) => {
-  event?.preventDefault?.();
+  if (event && typeof event.preventDefault === 'function') {
+    event.preventDefault();
+  }
   toggleBookModal(true);
 };
 
@@ -290,31 +298,37 @@ bookTriggers.forEach((trigger) => {
   trigger.addEventListener('click', handleBookTrigger);
 });
 
-floatingBookTrigger?.addEventListener('click', handleBookTrigger);
+if (floatingBookTrigger) {
+  floatingBookTrigger.addEventListener('click', handleBookTrigger);
+}
 
 bookModalClose.forEach((close) => {
   close.addEventListener('click', () => toggleBookModal(false));
 });
 
-bookModal?.addEventListener('click', (event) => {
-  if (event.target === bookModal) {
-    toggleBookModal(false);
-  }
-});
+if (bookModal) {
+  bookModal.addEventListener('click', (event) => {
+    if (event.target === bookModal) {
+      toggleBookModal(false);
+    }
+  });
+}
 
-bookingForm?.addEventListener('submit', (event) => {
-  event.preventDefault();
-  const button = bookingForm.querySelector('button[type="submit"]');
-  if (button) {
-    button.textContent = 'Byron will call shortly';
-    button.disabled = true;
-  }
-  const confirmation = document.createElement('p');
-  confirmation.className = 'book-modal__confirmation';
-  confirmation.textContent = 'Thanks! Byron is preparing a call with your team.';
-  bookingForm.appendChild(confirmation);
-  setTimeout(() => toggleBookModal(false), 1200);
-});
+if (bookingForm) {
+  bookingForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const button = bookingForm.querySelector('button[type="submit"]');
+    if (button) {
+      button.textContent = 'Byron will call shortly';
+      button.disabled = true;
+    }
+    const confirmation = document.createElement('p');
+    confirmation.className = 'book-modal__confirmation';
+    confirmation.textContent = 'Thanks! Byron is preparing a call with your team.';
+    bookingForm.appendChild(confirmation);
+    setTimeout(() => toggleBookModal(false), 1200);
+  });
+}
 
 const openChat = () => {
   if (!chat) return;
@@ -323,7 +337,10 @@ const openChat = () => {
   if (window.matchMedia('(max-width: 720px)').matches) {
     document.body.classList.add('no-scroll-chat');
   }
-  chat.querySelector('input')?.focus({ preventScroll: true });
+  const input = chat.querySelector('input');
+  if (input && typeof input.focus === 'function') {
+    input.focus({ preventScroll: true });
+  }
   setChatExpanded(true);
 };
 
@@ -334,18 +351,20 @@ chatLaunchers.forEach((launcher) => {
   });
 });
 
-chatCloser?.addEventListener('click', () => {
-  if (!chat) return;
-  chat.setAttribute('aria-hidden', 'true');
-  chat.classList.remove('chat--open');
-  document.body.classList.remove('no-scroll-chat');
-  setChatExpanded(false);
-});
+if (chatCloser) {
+  chatCloser.addEventListener('click', () => {
+    if (!chat) return;
+    chat.setAttribute('aria-hidden', 'true');
+    chat.classList.remove('chat--open');
+    document.body.classList.remove('no-scroll-chat');
+    setChatExpanded(false);
+  });
+}
 
 document.addEventListener('keydown', (event) => {
   if (event.key !== 'Escape') return;
   toggleBookModal(false);
-  if (chat?.classList.contains('chat--open')) {
+  if (chat && chat.classList.contains('chat--open')) {
     chat.setAttribute('aria-hidden', 'true');
     chat.classList.remove('chat--open');
     document.body.classList.remove('no-scroll-chat');
@@ -369,39 +388,62 @@ const sendMessage = (content, type = 'visitor') => {
   chatLog.scrollTop = chatLog.scrollHeight;
 };
 
-chatForm?.addEventListener('submit', (event) => {
-  event.preventDefault();
-  const input = chatForm.querySelector('input');
-  if (!input || !input.value.trim()) return;
-  const userMessage = input.value.trim();
-  sendMessage(userMessage, 'visitor');
-  input.value = '';
+if (chatForm) {
+  chatForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const input = chatForm.querySelector('input');
+    if (!input || !input.value.trim()) return;
+    const userMessage = input.value.trim();
+    sendMessage(userMessage, 'visitor');
+    input.value = '';
 
-  setTimeout(() => {
-    const reply = byronReplies[Math.floor(Math.random() * byronReplies.length)];
-    sendMessage(reply, 'byron');
-  }, 500 + Math.random() * 700);
-});
+    setTimeout(() => {
+      const reply = byronReplies[Math.floor(Math.random() * byronReplies.length)];
+      sendMessage(reply, 'byron');
+    }, 500 + Math.random() * 700);
+  });
+}
 
 let autoChatTimer = window.setTimeout(() => {
   openChat();
   setTimeout(() => {
-    const hasPrompt = chatLog?.querySelector('[data-auto-greeting]');
+    const hasPrompt = chatLog && chatLog.querySelector('[data-auto-greeting]');
     if (!hasPrompt) {
       const prompt = document.createElement('div');
       prompt.className = 'chat__message chat__message--byron';
       prompt.setAttribute('data-auto-greeting', '');
       prompt.innerHTML = '<p>Need help getting started? I can line up a discovery call or walk you through our AI services.</p>';
-      chatLog?.appendChild(prompt);
-      chatLog.scrollTop = chatLog.scrollHeight;
+      if (chatLog) {
+        chatLog.appendChild(prompt);
+        chatLog.scrollTop = chatLog.scrollHeight;
+      }
     }
   }, 600);
 }, 5000);
 
-window.addEventListener('load', () => {
+let stageInitialized = false;
+const beginStageSequence = () => {
+  if (stageInitialized) return;
+  stageInitialized = true;
+  document.body.classList.add('is-primed');
   parallax(window.scrollY || 0);
-  document.body.classList.add('stage-background');
-  setTimeout(() => document.body.classList.add('stage-headline'), 250);
-  setTimeout(() => document.body.classList.add('stage-actions'), 650);
-  setTimeout(() => document.body.classList.add('stage-supporting'), 1100);
-});
+  window.setTimeout(() => {
+    document.body.classList.add('stage-background');
+  }, 40);
+  window.setTimeout(() => {
+    document.body.classList.add('stage-headline');
+  }, 280);
+  window.setTimeout(() => {
+    document.body.classList.add('stage-actions');
+  }, 620);
+  window.setTimeout(() => {
+    document.body.classList.add('stage-supporting');
+  }, 980);
+};
+
+if (document.readyState === 'complete') {
+  beginStageSequence();
+} else {
+  window.addEventListener('load', beginStageSequence);
+  document.addEventListener('DOMContentLoaded', beginStageSequence);
+}

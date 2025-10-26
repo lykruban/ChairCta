@@ -36,10 +36,26 @@ body {
   position: relative;
 }
 
+body.is-primed .background {
+  opacity: 0;
+}
+
 body.is-primed .hero__content,
 body.is-primed .hero__cta,
 body.is-primed .hero__bottom {
   opacity: 0;
+}
+
+body.is-primed .hero__content {
+  transform: translateY(40px);
+}
+
+body.is-primed .hero__cta {
+  transform: translateY(32px);
+}
+
+body.is-primed .hero__bottom {
+  transform: translateY(28px);
 }
 
 body.stage-background .background {
@@ -66,10 +82,14 @@ body.stage-supporting .hero__bottom {
   inset: 0;
   overflow: hidden;
   z-index: -3;
-  opacity: 0;
+  opacity: 1;
   transform: translate3d(0, calc(var(--bg-parallax, 0) * 1px), 0);
   transition: opacity 1.4s ease, transform 1s ease;
   pointer-events: none;
+  background: radial-gradient(circle at 18% 22%, rgba(255, 255, 255, 0.12), transparent 62%),
+    radial-gradient(circle at 82% 28%, rgba(255, 255, 255, 0.08), transparent 64%),
+    radial-gradient(circle at 50% 82%, rgba(255, 255, 255, 0.06), transparent 68%),
+    linear-gradient(180deg, rgba(12, 12, 12, 0.9), rgba(6, 6, 6, 0.96));
 }
 
 .bg-layer {
@@ -114,7 +134,7 @@ body.stage-supporting .hero__bottom {
   inset: 0;
   transform-style: preserve-3d;
   perspective: 1200px;
-  filter: blur(22px);
+  filter: blur(16px);
   pointer-events: none;
 }
 
@@ -123,9 +143,9 @@ body.stage-supporting .hero__bottom {
   width: var(--bubble-size);
   height: var(--bubble-size);
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.04) 70%);
-  box-shadow: 0 45px 120px rgba(0, 0, 0, 0.65);
-  opacity: 0.8;
+  background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.06) 72%);
+  box-shadow: 0 45px 120px rgba(0, 0, 0, 0.7);
+  opacity: 0.85;
   transform: translateZ(calc(var(--bubble-depth) * 240px));
   animation: drift var(--bubble-duration) linear infinite;
   animation-delay: var(--bubble-delay);
@@ -270,8 +290,8 @@ main {
   flex-direction: column;
   align-items: center;
   gap: 1.2rem;
-  opacity: 0;
-  transform: translateY(40px);
+  opacity: 1;
+  transform: translateY(0);
   transition: opacity 700ms ease, transform 700ms ease;
 }
 
@@ -295,8 +315,8 @@ main {
   flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
-  opacity: 0;
-  transform: translateY(32px);
+  opacity: 1;
+  transform: translateY(0);
   transition: opacity 700ms ease, transform 700ms ease;
 }
 
@@ -306,8 +326,8 @@ main {
   justify-content: center;
   align-items: center;
   gap: 1.5rem;
-  opacity: 0;
-  transform: translateY(28px);
+  opacity: 1;
+  transform: translateY(0);
   transition: opacity 700ms ease, transform 700ms ease;
 }
 
