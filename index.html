@@ -14,6 +14,7 @@
     <div class="bg-layer bg-layer--1"></div>
     <div class="bg-layer bg-layer--2"></div>
     <div class="bg-layer bg-layer--3"></div>
+    <div class="bubble-field" id="bubbleField" aria-hidden="true"></div>
     <canvas id="particleCanvas" aria-hidden="true"></canvas>
   </div>
 
@@ -29,31 +30,26 @@
   </header>
 
   <main>
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="hero__content glass">
-        <div class="hero__badge">AI-FIRST EXPERIENCE DESIGN</div>
-        <h1 id="hero-title">YUVEXEL crafts autonomous systems with a Tesla sleek &amp; Apple simple finish.</h1>
-        <p>
-          We fuse human-grade conversations, retrieval native knowledge, and operations that run themselves. Every interaction is composed with glasslike clarity and matte restraint so your brand feels future-proof yet familiar.
-        </p>
-        <div class="hero__cta">
-          <a href="#services" class="btn btn--primary book-trigger">Book Our AI Team</a>
-          <a href="#vision" class="btn btn--ghost">Learn More</a>
-          <button class="btn btn--ghost btn--chat" type="button" data-chat-open>Meet Byron</button>
+    <section class="hero" aria-labelledby="hero-title" data-parallax>
+      <div class="hero__content" data-stage="headline">
+        <h1 id="hero-title">YUVEXEL</h1>
+        <p class="hero__subtitle">Transforming Enterprises With Purpose-Built AI</p>
+        <div class="hero__cta" data-stage="actions">
+          <button class="btn btn--primary btn--lg book-trigger" type="button">Book a Discovery Call</button>
+          <a href="#vision" class="btn btn--ghost btn--lg">Learn More</a>
         </div>
       </div>
-      <div class="hero__visual">
-        <div class="orb orb--primary"></div>
-        <div class="orb orb--secondary"></div>
+      <div class="hero__bottom" data-stage="supporting">
         <div class="hero__stats glass">
           <p class="stat__label">Realtime Automations</p>
           <p class="stat__value">&gt;12M workflows orchestrated</p>
           <p class="stat__meta">Adaptive · Voice · Knowledge</p>
         </div>
+        <div class="hero__badge glass">AI-FIRST EXPERIENCE DESIGN</div>
       </div>
     </section>
 
-    <section id="vision" class="vision" aria-labelledby="vision-title">
+    <section id="vision" class="vision" aria-labelledby="vision-title" data-parallax>
       <div class="section__header">
         <span class="section__kicker">Why YUVEXEL</span>
         <h2 id="vision-title">A black-and-white commitment to clarity, autonomy, and precision.</h2>
@@ -80,7 +76,7 @@
       </div>
     </section>
 
-    <section id="services" class="services" aria-labelledby="services-title">
+    <section id="services" class="services" aria-labelledby="services-title" data-parallax>
       <div class="section__header">
         <span class="section__kicker">Our Services</span>
         <h2 id="services-title">Three signature systems to amplify your brand.</h2>
@@ -132,7 +128,7 @@
       </div>
     </section>
 
-    <section class="metrics" aria-label="YUVEXEL impact metrics">
+    <section class="metrics" aria-label="YUVEXEL impact metrics" data-parallax>
       <div class="metrics__card glass" data-tilt>
         <span class="metrics__label">Time to first prototype</span>
         <span class="metrics__value" data-count="72">0</span>
@@ -150,7 +146,7 @@
       </div>
     </section>
 
-    <section id="process" class="process" aria-labelledby="process-title">
+    <section id="process" class="process" aria-labelledby="process-title" data-parallax>
       <div class="section__header">
         <span class="section__kicker">Signature Process</span>
         <h2 id="process-title">Designing autonomy, one precise layer at a time.</h2>
@@ -178,7 +174,7 @@
       </div>
     </section>
 
-    <section class="story" aria-labelledby="story-title">
+    <section class="story" aria-labelledby="story-title" data-parallax>
       <div class="section__header">
         <span class="section__kicker">Field Notes</span>
         <h2 id="story-title">How brands feel after partnering with YUVEXEL.</h2>
@@ -200,7 +196,7 @@
       </div>
     </section>
 
-    <section id="contact" class="contact" aria-labelledby="contact-title">
+    <section id="contact" class="contact" aria-labelledby="contact-title" data-parallax>
       <div class="contact__content glass">
         <span class="section__kicker">Engage</span>
         <h2 id="contact-title">Ready to orchestrate intelligent experiences?</h2>
@@ -308,9 +304,16 @@
     </form>
   </div>
 
-  <button class="chat-launch" type="button" data-chat-open aria-label="Chat with Byron">
-    <span class="chat-launch__label">Chat with Byron</span>
-  </button>
+  <div class="floating-actions" aria-live="polite">
+    <button class="floating-actions__button floating-actions__button--call" type="button" data-floating-book>
+      <span class="sr-only">Book a discovery call</span>
+      <span aria-hidden="true">☎︎</span>
+    </button>
+    <button class="floating-actions__button" type="button" data-chat-open>
+      <span class="sr-only">Chat with Byron</span>
+      <span aria-hidden="true">💬</span>
+    </button>
+  </div>
 
   <script src="script.js"></script>
 </body>

@@ -4,7 +4,9 @@ const yearEl = document.getElementById('year');
 const scrollIndicator = document.querySelector('.scroll-indicator');
 const tiltElements = Array.from(document.querySelectorAll('[data-tilt]'));
 const canvas = document.getElementById('particleCanvas');
+const bubbleField = document.getElementById('bubbleField');
 const bookTriggers = document.querySelectorAll('.book-trigger');
+const floatingBookTrigger = document.querySelector('[data-floating-book]');
 const bookModal = document.querySelector('.book-modal');
 const bookModalClose = document.querySelectorAll('[data-modal-close]');
 const chat = document.querySelector('[data-chat]');
@@ -14,6 +16,9 @@ const chatForm = document.querySelector('[data-chat-form]');
 const chatLog = document.querySelector('[data-chat-log]');
 const counters = document.querySelectorAll('[data-count]');
 const bookingForm = document.querySelector('.book-modal__form');
+const parallaxSections = document.querySelectorAll('[data-parallax]');
+
+document.body.classList.add('is-primed');
 
 const setChatExpanded = (open) => {
   chatLaunchers.forEach((launcher) => launcher.setAttribute('aria-expanded', open ? 'true' : 'false'));
@@ -37,6 +42,40 @@ if (navMenuButton && navLinks) {
       navMenuButton.setAttribute('aria-expanded', 'false');
     });
   });
+}
+
+if (bubbleField) {
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const bubbleTotal = prefersReduced ? 12 : Math.min(80, Math.floor(window.innerWidth / 18));
+
+  const createBubble = () => {
+    const bubble = document.createElement('span');
+    bubble.className = 'bubble-field__bubble';
+    const size = Math.random() * 220 + 60;
+    const duration = Math.random() * 18 + 18;
+    const delay = Math.random() * 12;
+    const depth = Math.random();
+
+    bubble.style.setProperty('--bubble-size', `${size}px`);
+    bubble.style.setProperty('--bubble-duration', `${duration}s`);
+    bubble.style.setProperty('--bubble-delay', `-${delay}s`);
+    bubble.style.setProperty('--bubble-depth', depth);
+    bubble.style.left = `${Math.random() * 100}%`;
+    bubble.style.top = `${Math.random() * 100}%`;
+
+    bubbleField.appendChild(bubble);
+
+    bubble.addEventListener('animationend', () => {
+      bubble.remove();
+      if (!prefersReduced) {
+        requestAnimationFrame(createBubble);
+      }
+    });
+  };
+
+  for (let i = 0; i < bubbleTotal; i += 1) {
+    createBubble();
+  }
 }
 
 if (canvas) {
@@ -192,11 +231,23 @@ window.addEventListener('scroll', () => {
 let lastKnownScroll = 0;
 let ticking = false;
 const parallaxElements = document.querySelectorAll('.bg-layer');
+const background = document.querySelector('.background');
 
 const parallax = (scrollPos) => {
   parallaxElements.forEach((layer, index) => {
     const depth = (index + 1) * 18;
     layer.style.setProperty('--scroll-y', `${scrollPos / depth}px`);
+  });
+  if (bubbleField) {
+    bubbleField.style.transform = `translate3d(0, ${scrollPos * -0.08}px, 0)`;
+  }
+  if (background) {
+    background.style.setProperty('--bg-parallax', `${scrollPos * -0.05}`);
+  }
+  parallaxSections.forEach((section, index) => {
+    const depth = parseFloat(section.dataset.parallaxDepth || '') || (12 + index * 4);
+    const offset = scrollPos / depth;
+    section.style.setProperty('--section-parallax', `${-offset}`);
   });
 };
 
@@ -230,12 +281,16 @@ const toggleBookModal = (show) => {
   }
 };
 
+const handleBookTrigger = (event) => {
+  event?.preventDefault?.();
+  toggleBookModal(true);
+};
+
 bookTriggers.forEach((trigger) => {
-  trigger.addEventListener('click', (event) => {
-    event.preventDefault();
-    toggleBookModal(true);
-  });
+  trigger.addEventListener('click', handleBookTrigger);
 });
+
+floatingBookTrigger?.addEventListener('click', handleBookTrigger);
 
 bookModalClose.forEach((close) => {
   close.addEventListener('click', () => toggleBookModal(false));
@@ -261,14 +316,21 @@ bookingForm?.addEventListener('submit', (event) => {
   setTimeout(() => toggleBookModal(false), 1200);
 });
 
+const openChat = () => {
+  if (!chat) return;
+  chat.setAttribute('aria-hidden', 'false');
+  chat.classList.add('chat--open');
+  if (window.matchMedia('(max-width: 720px)').matches) {
+    document.body.classList.add('no-scroll-chat');
+  }
+  chat.querySelector('input')?.focus({ preventScroll: true });
+  setChatExpanded(true);
+};
+
 chatLaunchers.forEach((launcher) => {
   launcher.addEventListener('click', () => {
-    if (!chat) return;
-    chat.setAttribute('aria-hidden', 'false');
-    chat.classList.add('chat--open');
-    document.body.classList.add('no-scroll-chat');
-    chat.querySelector('input')?.focus({ preventScroll: true });
-    setChatExpanded(true);
+    openChat();
+    window.clearTimeout(autoChatTimer);
   });
 });
 
@@ -319,4 +381,27 @@ chatForm?.addEventListener('submit', (event) => {
     const reply = byronReplies[Math.floor(Math.random() * byronReplies.length)];
     sendMessage(reply, 'byron');
   }, 500 + Math.random() * 700);
+});
+
+let autoChatTimer = window.setTimeout(() => {
+  openChat();
+  setTimeout(() => {
+    const hasPrompt = chatLog?.querySelector('[data-auto-greeting]');
+    if (!hasPrompt) {
+      const prompt = document.createElement('div');
+      prompt.className = 'chat__message chat__message--byron';
+      prompt.setAttribute('data-auto-greeting', '');
+      prompt.innerHTML = '<p>Need help getting started? I can line up a discovery call or walk you through our AI services.</p>';
+      chatLog?.appendChild(prompt);
+      chatLog.scrollTop = chatLog.scrollHeight;
+    }
+  }, 600);
+}, 5000);
+
+window.addEventListener('load', () => {
+  parallax(window.scrollY || 0);
+  document.body.classList.add('stage-background');
+  setTimeout(() => document.body.classList.add('stage-headline'), 250);
+  setTimeout(() => document.body.classList.add('stage-actions'), 650);
+  setTimeout(() => document.body.classList.add('stage-supporting'), 1100);
 });
