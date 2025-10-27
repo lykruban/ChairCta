@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="YUVEXEL — Purpose-built AI transformations for enterprise leaders." />
+    <title>YUVEXEL — Purpose-Built AI Automation Agency</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128' viewBox='0 0 128 128'%3E%3Crect width='128' height='128' rx='32' fill='%23000'/%3E%3Cpath d='M30 96L60 32h8l30 64h-9l-8-17H47l-8 17h-9Zm20.4-26h27.2L64 45.6 50.4 70Z' fill='%23f5f5f5'/%3E%3C/svg%3E" />
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.157.0/three.min.js" integrity="sha512-dUXkGLumZ5qX6Ch12yvDqOiiMHDL/95B2S/bRMyCV2wE8p1WYQthPNgm6kKiC9JIhbnoAVnX1nvUs61f7oTWJg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="assets/app.js"></script>
+  </head>
+  <body>
+    <canvas id="scene"></canvas>
+    <div class="overlay"></div>
+    <div class="site-wrapper">
+      <nav>
+        <div class="brand">
+          <div class="brand-mark">YX</div>
+          <h1>YUVEXEL</h1>
+        </div>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav-cluster">
+          Menu
+        </button>
+        <div class="nav-cluster" id="nav-cluster">
+          <div class="nav-links">
+            <a href="#services">Services</a>
+            <a href="#process">Approach</a>
+            <a href="#showcase">Impact</a>
+            <a href="#kits">Playbooks</a>
+            <a href="#contact">Engage</a>
+          </div>
+          <div class="nav-cta">
+            <button class="button secondary" data-chat-open>Chat with Byron</button>
+            <button class="button" data-booking-open>Book a Call</button>
+          </div>
+        </div>
+      </nav>
+
+      <div class="trust-ribbon reveal">
+        <span>Trusted by operators reinventing</span>
+        <div class="trust-marquee">
+          <span>Healthcare Networks</span>
+          <span>Logistics Titans</span>
+          <span>Global Retail</span>
+          <span>Next-Gen Finance</span>
+          <span>Public Sector Labs</span>
+        </div>
+      </div>
+
+      <main>
+        <section class="hero">
+          <div class="hero-inner">
+            <h2>YUVEXEL</h2>
+            <p>Transforming Enterprises With Purpose-Built AI. We pair human-first systems thinking with adaptive automation, orchestrating AI that speaks, learns, and executes with precision.</p>
+            <div class="hero-cta">
+              <button class="button" data-booking-open>Book a Discovery Call</button>
+              <a class="button secondary" href="#services">Learn More</a>
+            </div>
+            <div class="hero-meta">
+              <div class="meta-grid">
+                <div class="meta-card reveal">
+                  <h3>AI Calling Agents</h3>
+                  <p>Human-grade outbound and reception intelligence that books, qualifies, and follows through in natural language.</p>
+                </div>
+                <div class="meta-card reveal">
+                  <h3>Adaptive RAG Systems</h3>
+                  <p>Domain-tuned retrieval augmented models that surface trusted answers on demand and learn from every interaction.</p>
+                </div>
+                <div class="meta-card reveal">
+                  <h3>Ops Orchestration</h3>
+                  <p>Workflow automations that weave across CRM, ERP, and bespoke stacks — accelerating execution across the enterprise.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="services">
+          <div class="section-heading">
+            <h2>Capabilities</h2>
+            <p>Every engagement starts with intent modelling: mapping the conversations, knowledge, and decisions that define your brand. From there, we deploy bespoke AI that scales nuance without sacrificing control.</p>
+          </div>
+          <div class="service-grid">
+            <article class="service-card reveal">
+              <h3>Voice Interfaces</h3>
+              <p>Conversational AI agents that greet, qualify, and close with tone-matched personality, built atop resilient telephony infrastructure.</p>
+              <ul>
+                <li>Omnichannel call orchestration</li>
+                <li>Dynamic escalation routing</li>
+                <li>Real-time sentiment coaching</li>
+              </ul>
+              <button class="button pill" data-booking-open>Book a Voice Audit</button>
+            </article>
+            <article class="service-card reveal">
+              <h3>Knowledge Fabric</h3>
+              <p>Retrieval pipelines that unify documents, chats, and records into a single answer engine — grounded in governance and observability.</p>
+              <ul>
+                <li>Vectorized knowledge base fusion</li>
+                <li>Human-in-the-loop guardrails</li>
+                <li>Insight telemetry dashboards</li>
+              </ul>
+              <button class="button pill" data-booking-open>Explore RAG Design</button>
+            </article>
+            <article class="service-card reveal">
+              <h3>Ops Automations</h3>
+              <p>Closed-loop workflow automations that trigger, triage, and resolve tasks across revenue, support, and delivery operations.</p>
+              <ul>
+                <li>Event-driven orchestrations</li>
+                <li>CRM &amp; ERP co-pilots</li>
+                <li>Self-healing process bots</li>
+              </ul>
+              <button class="button pill" data-booking-open>Design an Automation</button>
+            </article>
+          </div>
+        </section>
+
+        <section id="process">
+          <div class="section-heading">
+            <h2>Method</h2>
+            <p>Our studio approach blends rapid prototyping with systems governance, ensuring every build lands with confidence and scales responsibly.</p>
+          </div>
+          <div class="split-grid">
+            <div class="glass-panel reveal">
+              <h3 class="panel-title">Blueprint</h3>
+              <p class="panel-copy">We co-create future-state journeys, translate them into measurable intents, and architect data contracts that ensure continuity between human and AI operators.</p>
+              <div class="tag-list">
+                <span class="tag">Signal Mapping</span>
+                <span class="tag">CX Harmony</span>
+                <span class="tag">Governance</span>
+              </div>
+            </div>
+            <div class="glass-panel reveal">
+              <h3 class="panel-title">Launch</h3>
+              <p class="panel-copy">Rapid sprints align design, engineering, and compliance in parallel. Byron, our orchestration layer, keeps stakeholders synced with living prototypes.</p>
+              <div class="tag-list">
+                <span class="tag">Live Sandboxes</span>
+                <span class="tag">Observation Decks</span>
+                <span class="tag">QA Guilds</span>
+              </div>
+            </div>
+            <div class="glass-panel reveal">
+              <h3 class="panel-title">Amplify</h3>
+              <p class="panel-copy">Post-launch, we amplify signal loops, layer adaptive learning, and enable your operators with the telemetry they need to coach and refine.</p>
+              <div class="tag-list">
+                <span class="tag">Adaptive Loops</span>
+                <span class="tag">Workforce Enablement</span>
+                <span class="tag">Impact Sprints</span>
+              </div>
+            </div>
+          </div>
+          <div class="metric-band">
+            <div class="metric reveal">
+              <strong>92%</strong>
+              <span>Call Containment Without Human Escalation</span>
+            </div>
+            <div class="metric reveal">
+              <strong>38x</strong>
+              <span>Faster Knowledge Retrieval vs Legacy Portals</span>
+            </div>
+            <div class="metric reveal">
+              <strong>4.9</strong>
+              <span>Average CSAT After AI Co-Pilot Deployment</span>
+            </div>
+            <div class="metric reveal">
+              <strong>11</strong>
+              <span>Weeks to Enterprise-Wide Automation Rollout</span>
+            </div>
+          </div>
+        </section>
+
+        <section id="kits">
+          <div class="section-heading">
+            <h2>Launch Playbooks</h2>
+            <p>Every program ships with a dedicated playbook — we map operators, data, and governance into staged waves so your org gains adoption without disruption.</p>
+          </div>
+          <div class="timeline">
+            <article class="timeline-node reveal">
+              <div class="timeline-pin">01</div>
+              <div class="timeline-body">
+                <h3>Signal Immersion</h3>
+                <p>Workshops with your frontline teams uncover the conversations and workflows that move the needle. We translate them into measurable intents and golden transcripts.</p>
+                <ul>
+                  <li>Operator interviews &amp; listening labs</li>
+                  <li>Success metric definition</li>
+                  <li>Governance &amp; compliance scope</li>
+                </ul>
+              </div>
+            </article>
+            <article class="timeline-node reveal">
+              <div class="timeline-pin">02</div>
+              <div class="timeline-body">
+                <h3>Co-Design Sprints</h3>
+                <p>Designers and engineers pair with your SMEs to craft prototypes. Voice, chat, and workflow loops are stood up in sandboxes to pressure-test with real stakeholders.</p>
+                <ul>
+                  <li>Experience prototyping</li>
+                  <li>Observation &amp; feedback cadence</li>
+                  <li>Guardrail configuration</li>
+                </ul>
+              </div>
+            </article>
+            <article class="timeline-node reveal">
+              <div class="timeline-pin">03</div>
+              <div class="timeline-body">
+                <h3>Launch Pods</h3>
+                <p>Pod leads manage rollout, training, and handoff. Byron monitors adoption, flags drifts, and automates playbook updates as data comes in.</p>
+                <ul>
+                  <li>Performance instrumentation</li>
+                  <li>Operator enablement</li>
+                  <li>Lifecycle coaching</li>
+                </ul>
+              </div>
+            </article>
+            <article class="timeline-node reveal">
+              <div class="timeline-pin">04</div>
+              <div class="timeline-body">
+                <h3>Expansion</h3>
+                <p>We extend into new departments and geos with confidence scores guiding prioritization. Your team owns a living roadmap for ongoing automation.</p>
+                <ul>
+                  <li>Playbook localization</li>
+                  <li>Impact retrospectives</li>
+                  <li>Executive reporting</li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section id="showcase">
+          <div class="section-heading">
+            <h2>Proof</h2>
+            <p>From stealth startups to Fortune 100 operators, YUVEXEL embeds alongside your teams to ship measurable, defensible change.</p>
+          </div>
+          <div class="showcase-grid">
+            <article class="showcase-card reveal">
+              <h3>Healthcare Network</h3>
+              <p>Automated 74% of inbound scheduling calls with empathetic AI agents, compressing appointment waitlists by 11 days.</p>
+            </article>
+            <article class="showcase-card reveal">
+              <h3>Global Logistics</h3>
+              <p>Unified 1.2M documents into a living RAG corpus, unlocking sub-second answers for frontline coordinators worldwide.</p>
+            </article>
+            <article class="showcase-card reveal">
+              <h3>Fintech Scaleup</h3>
+              <p>Launched cross-team process automations that reclaimed 18k analyst hours annually while tightening compliance controls.</p>
+            </article>
+          </div>
+        </section>
+
+        <section id="insights">
+          <div class="section-heading">
+            <h2>Insights</h2>
+            <p>Stay ahead of the automation curve with research notes, teardown videos, and readiness guides curated by the YUVEXEL guild.</p>
+          </div>
+          <div class="insight-grid">
+            <article class="insight-card reveal">
+              <span class="insight-kicker">Field Note</span>
+              <h3>Designing AI Agents That Customers Trust</h3>
+              <p>Principles for tone, timing, and recovery across voice and chat channels — distilled from millions of Byron-assisted conversations.</p>
+              <button class="button pill" data-booking-open>Request the Briefing</button>
+            </article>
+            <article class="insight-card reveal">
+              <span class="insight-kicker">Video Lab</span>
+              <h3>Inside a 30-Day Automation Sprint</h3>
+              <p>Walk through our launch pod tooling, QA rituals, and observability stack in a guided teardown hosted by our automation leads.</p>
+              <button class="button pill" data-booking-open>Stream the Session</button>
+            </article>
+            <article class="insight-card reveal">
+              <span class="insight-kicker">Guide</span>
+              <h3>Executive Playbook for AI Governance</h3>
+              <p>Frame your AI roadmap with procurement, security, and compliance alignment baked in — including templates to jump-start approvals.</p>
+              <button class="button pill" data-booking-open>Download the Kit</button>
+            </article>
+          </div>
+        </section>
+
+        <section id="stories">
+          <div class="section-heading">
+            <h2>Signals</h2>
+            <p>Leaders bring us in when performance, consistency, and customer trust can no longer be left to manual lift.</p>
+          </div>
+          <div class="testimonials">
+            <div class="testimonial reveal">
+              <p>“YUVEXEL took our contact center from chaos to choreography. Their voice AI sounds like us, thinks like us, and closes business while our human team focuses on high-touch escalations.”</p>
+              <span>Chief Experience Officer — National Retail Collective</span>
+            </div>
+            <div class="testimonial reveal">
+              <p>“Their governance-first mindset let us greenlight an enterprise RAG rollout in record time. We have full observability, zero hallucinations, and the board finally sees AI as an asset.”</p>
+              <span>VP Transformation — Fortune 100 Logistics</span>
+            </div>
+          </div>
+        </section>
+
+        <section id="contact">
+          <div class="section-heading">
+            <h2>Engage</h2>
+            <p>Spin up Byron for a guided tour or drop us a note — either way, you’ll have an orchestrated launch path within days.</p>
+          </div>
+          <div class="contact">
+            <div class="contact-copy reveal">
+              <h3>Architect Your AI Advantage</h3>
+              <p>Our strategists respond within one business day. Share where you want automation to land and we’ll map the fastest route from prototype to production.</p>
+              <div class="tag-list">
+                <span class="tag">Enterprise-Ready</span>
+                <span class="tag">Security Cleared</span>
+                <span class="tag">Lifecycle Support</span>
+              </div>
+            </div>
+            <form class="contact-form reveal">
+              <label>
+                Name
+                <input type="text" name="name" placeholder="Jordan Rivera" required />
+              </label>
+              <label>
+                Work Email
+                <input type="email" name="email" placeholder="jordan@yuvexel.com" required />
+              </label>
+              <label>
+                Company
+                <input type="text" name="company" placeholder="Acme Industries" />
+              </label>
+              <label>
+                Project Vision
+                <textarea name="project" placeholder="Tell us about the experience you want to automate..."></textarea>
+              </label>
+              <button type="submit" class="button">Submit to Byron</button>
+            </form>
+          </div>
+        </section>
+
+        <section id="faq">
+          <div class="section-heading">
+            <h2>FAQ</h2>
+            <p>Answers to the questions exec teams ask us before they greenlight Byron-led transformation.</p>
+          </div>
+          <div class="faq-grid">
+            <article class="faq-item">
+              <button class="faq-toggle" aria-expanded="false">
+                How quickly can we see Byron in production?
+                <span aria-hidden="true">+</span>
+              </button>
+              <div class="faq-body">
+                <p>Most teams launch their first Byron concierge or automation in 45 days or less. Our pods embed alongside your squads, aligning design, engineering, and governance tracks in parallel.</p>
+              </div>
+            </article>
+            <article class="faq-item">
+              <button class="faq-toggle" aria-expanded="false">
+                What data do you need to get started?
+                <span aria-hidden="true">+</span>
+              </button>
+              <div class="faq-body">
+                <p>We begin with your conversation logs, knowledge articles, and workflow SOPs. Sensitive data stays in your enclave — we deploy within secure environments with SOC 2 controls.</p>
+              </div>
+            </article>
+            <article class="faq-item">
+              <button class="faq-toggle" aria-expanded="false">
+                How do you handle compliance and brand risk?
+                <span aria-hidden="true">+</span>
+              </button>
+              <div class="faq-body">
+                <p>Every launch includes policy guardrails, human-in-the-loop checkpoints, and live observability dashboards. Byron flags off-pattern behavior and enables rapid iteration with audit trails.</p>
+              </div>
+            </article>
+            <article class="faq-item">
+              <button class="faq-toggle" aria-expanded="false">
+                Can you integrate with our existing stack?
+                <span aria-hidden="true">+</span>
+              </button>
+              <div class="faq-body">
+                <p>Yes. We bridge CRMs, ERPs, ticketing suites, and bespoke tools with a modular orchestration layer. Connectors and APIs keep your source of truth intact while automations execute end-to-end.</p>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <small>© <span id="year"></span> YUVEXEL Automation Studio. Engineered for purposeful intelligence.</small>
+      </footer>
+
+      <div class="floating-cta">
+        <button class="button" data-booking-open>Book a Discovery Call</button>
+        <button class="button secondary" data-chat-open>Need Assistance?</button>
+      </div>
+
+      <div class="modal" role="dialog" aria-modal="true" aria-label="Book a discovery call">
+        <div class="modal-header">
+          <h3>Book a Discovery Call</h3>
+          <button class="close-button" aria-label="Close booking" data-close>&times;</button>
+        </div>
+        <p class="panel-copy">Drop a few details and Byron will route an AI concierge to reach out within minutes.</p>
+        <form>
+          <label>
+            Name
+            <input type="text" name="name" placeholder="Jamie Patel" required />
+          </label>
+          <label>
+            Company
+            <input type="text" name="company" placeholder="Nova Systems" />
+          </label>
+          <label>
+            Phone Number
+            <input type="tel" name="phone" placeholder="+1 (555) 234-5678" required />
+          </label>
+          <label>
+            Preferred Window
+            <input type="text" name="window" placeholder="Tomorrow 1-3pm EST" />
+          </label>
+          <button type="submit" class="button">Schedule with Byron</button>
+        </form>
+        <p class="modal-success panel-copy"></p>
+      </div>
+
+      <div class="chatbot" role="dialog" aria-modal="true" aria-label="Byron AI Concierge">
+        <div class="chatbot-header">
+          <h3>Byron, AI Concierge</h3>
+          <button class="close-button" aria-label="Close chat" data-close>&times;</button>
+        </div>
+        <div class="chat-log" role="log" aria-live="polite"></div>
+        <form>
+          <textarea placeholder="Ask Byron anything about our automations..." required></textarea>
+          <button type="submit" class="button">Send to Byron</button>
+        </form>
+      </div>
+    </div>
+    <div class="cursor-ring"></div>
+    <div class="cursor-dot"></div>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('year').textContent = new Date().getFullYear();
+      });
+    </script>
+  </body>
+</html>
