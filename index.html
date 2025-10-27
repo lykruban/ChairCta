@@ -21,15 +21,21 @@
           <div class="brand-mark">YX</div>
           <h1>YUVEXEL</h1>
         </div>
-        <div class="nav-links">
-          <a href="#services">Services</a>
-          <a href="#process">Approach</a>
-          <a href="#showcase">Impact</a>
-          <a href="#contact">Engage</a>
-        </div>
-        <div class="nav-cta">
-          <button class="button secondary" data-chat-open>Chat with Byron</button>
-          <button class="button" data-booking-open>Book a Call</button>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav-cluster">
+          Menu
+        </button>
+        <div class="nav-cluster" id="nav-cluster">
+          <div class="nav-links">
+            <a href="#services">Services</a>
+            <a href="#process">Approach</a>
+            <a href="#showcase">Impact</a>
+            <a href="#kits">Playbooks</a>
+            <a href="#contact">Engage</a>
+          </div>
+          <div class="nav-cta">
+            <button class="button secondary" data-chat-open>Chat with Byron</button>
+            <button class="button" data-booking-open>Book a Call</button>
+          </div>
         </div>
       </nav>
 
@@ -165,6 +171,63 @@
           </div>
         </section>
 
+        <section id="kits">
+          <div class="section-heading">
+            <h2>Launch Playbooks</h2>
+            <p>Every program ships with a dedicated playbook — we map operators, data, and governance into staged waves so your org gains adoption without disruption.</p>
+          </div>
+          <div class="timeline">
+            <article class="timeline-node reveal">
+              <div class="timeline-pin">01</div>
+              <div class="timeline-body">
+                <h3>Signal Immersion</h3>
+                <p>Workshops with your frontline teams uncover the conversations and workflows that move the needle. We translate them into measurable intents and golden transcripts.</p>
+                <ul>
+                  <li>Operator interviews &amp; listening labs</li>
+                  <li>Success metric definition</li>
+                  <li>Governance &amp; compliance scope</li>
+                </ul>
+              </div>
+            </article>
+            <article class="timeline-node reveal">
+              <div class="timeline-pin">02</div>
+              <div class="timeline-body">
+                <h3>Co-Design Sprints</h3>
+                <p>Designers and engineers pair with your SMEs to craft prototypes. Voice, chat, and workflow loops are stood up in sandboxes to pressure-test with real stakeholders.</p>
+                <ul>
+                  <li>Experience prototyping</li>
+                  <li>Observation &amp; feedback cadence</li>
+                  <li>Guardrail configuration</li>
+                </ul>
+              </div>
+            </article>
+            <article class="timeline-node reveal">
+              <div class="timeline-pin">03</div>
+              <div class="timeline-body">
+                <h3>Launch Pods</h3>
+                <p>Pod leads manage rollout, training, and handoff. Byron monitors adoption, flags drifts, and automates playbook updates as data comes in.</p>
+                <ul>
+                  <li>Performance instrumentation</li>
+                  <li>Operator enablement</li>
+                  <li>Lifecycle coaching</li>
+                </ul>
+              </div>
+            </article>
+            <article class="timeline-node reveal">
+              <div class="timeline-pin">04</div>
+              <div class="timeline-body">
+                <h3>Expansion</h3>
+                <p>We extend into new departments and geos with confidence scores guiding prioritization. Your team owns a living roadmap for ongoing automation.</p>
+                <ul>
+                  <li>Playbook localization</li>
+                  <li>Impact retrospectives</li>
+                  <li>Executive reporting</li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </section>
+
         <section id="showcase">
           <div class="section-heading">
             <h2>Proof</h2>
@@ -182,6 +245,33 @@
             <article class="showcase-card reveal">
               <h3>Fintech Scaleup</h3>
               <p>Launched cross-team process automations that reclaimed 18k analyst hours annually while tightening compliance controls.</p>
+            </article>
+          </div>
+        </section>
+
+        <section id="insights">
+          <div class="section-heading">
+            <h2>Insights</h2>
+            <p>Stay ahead of the automation curve with research notes, teardown videos, and readiness guides curated by the YUVEXEL guild.</p>
+          </div>
+          <div class="insight-grid">
+            <article class="insight-card reveal">
+              <span class="insight-kicker">Field Note</span>
+              <h3>Designing AI Agents That Customers Trust</h3>
+              <p>Principles for tone, timing, and recovery across voice and chat channels — distilled from millions of Byron-assisted conversations.</p>
+              <button class="button pill" data-booking-open>Request the Briefing</button>
+            </article>
+            <article class="insight-card reveal">
+              <span class="insight-kicker">Video Lab</span>
+              <h3>Inside a 30-Day Automation Sprint</h3>
+              <p>Walk through our launch pod tooling, QA rituals, and observability stack in a guided teardown hosted by our automation leads.</p>
+              <button class="button pill" data-booking-open>Stream the Session</button>
+            </article>
+            <article class="insight-card reveal">
+              <span class="insight-kicker">Guide</span>
+              <h3>Executive Playbook for AI Governance</h3>
+              <p>Frame your AI roadmap with procurement, security, and compliance alignment baked in — including templates to jump-start approvals.</p>
+              <button class="button pill" data-booking-open>Download the Kit</button>
             </article>
           </div>
         </section>
@@ -237,6 +327,51 @@
               </label>
               <button type="submit" class="button">Submit to Byron</button>
             </form>
+          </div>
+        </section>
+
+        <section id="faq">
+          <div class="section-heading">
+            <h2>FAQ</h2>
+            <p>Answers to the questions exec teams ask us before they greenlight Byron-led transformation.</p>
+          </div>
+          <div class="faq-grid">
+            <article class="faq-item">
+              <button class="faq-toggle" aria-expanded="false">
+                How quickly can we see Byron in production?
+                <span aria-hidden="true">+</span>
+              </button>
+              <div class="faq-body">
+                <p>Most teams launch their first Byron concierge or automation in 45 days or less. Our pods embed alongside your squads, aligning design, engineering, and governance tracks in parallel.</p>
+              </div>
+            </article>
+            <article class="faq-item">
+              <button class="faq-toggle" aria-expanded="false">
+                What data do you need to get started?
+                <span aria-hidden="true">+</span>
+              </button>
+              <div class="faq-body">
+                <p>We begin with your conversation logs, knowledge articles, and workflow SOPs. Sensitive data stays in your enclave — we deploy within secure environments with SOC 2 controls.</p>
+              </div>
+            </article>
+            <article class="faq-item">
+              <button class="faq-toggle" aria-expanded="false">
+                How do you handle compliance and brand risk?
+                <span aria-hidden="true">+</span>
+              </button>
+              <div class="faq-body">
+                <p>Every launch includes policy guardrails, human-in-the-loop checkpoints, and live observability dashboards. Byron flags off-pattern behavior and enables rapid iteration with audit trails.</p>
+              </div>
+            </article>
+            <article class="faq-item">
+              <button class="faq-toggle" aria-expanded="false">
+                Can you integrate with our existing stack?
+                <span aria-hidden="true">+</span>
+              </button>
+              <div class="faq-body">
+                <p>Yes. We bridge CRMs, ERPs, ticketing suites, and bespoke tools with a modular orchestration layer. Connectors and APIs keep your source of truth intact while automations execute end-to-end.</p>
+              </div>
+            </article>
           </div>
         </section>
       </main>

@@ -167,6 +167,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const openBookingButtons = document.querySelectorAll('[data-booking-open]');
   const openChatButtons = document.querySelectorAll('[data-chat-open]');
   const closeButtons = document.querySelectorAll('[data-close]');
+  const siteNav = document.querySelector('nav');
+  const navToggle = document.querySelector('.nav-toggle');
+  const navLinks = document.querySelectorAll('.nav-links a');
 
   const openModal = (modal) => {
     modal.classList.add('active');
@@ -190,6 +193,29 @@ document.addEventListener('DOMContentLoaded', () => {
       closeModal(target);
     })
   );
+
+  if (navToggle && siteNav) {
+    navToggle.addEventListener('click', () => {
+      const isOpen = siteNav.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', isOpen);
+    });
+
+    navLinks.forEach((link) =>
+      link.addEventListener('click', () => {
+        if (siteNav.classList.contains('open')) {
+          siteNav.classList.remove('open');
+          navToggle.setAttribute('aria-expanded', 'false');
+        }
+      })
+    );
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 780 && siteNav.classList.contains('open')) {
+        siteNav.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
 
   const appendMessage = (content, sender = 'bot') => {
     const wrapper = document.createElement('div');
@@ -256,6 +282,16 @@ document.addEventListener('DOMContentLoaded', () => {
     bookingForm.reset();
   });
 
+  const faqItems = document.querySelectorAll('.faq-item');
+  faqItems.forEach((item) => {
+    const toggle = item.querySelector('.faq-toggle');
+    if (!toggle) return;
+    toggle.addEventListener('click', () => {
+      const isOpen = item.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', isOpen);
+    });
+  });
+
   const cursor = document.querySelector('.cursor-dot');
   const ring = document.querySelector('.cursor-ring');
   let pointerX = window.innerWidth / 2;
@@ -282,7 +318,9 @@ document.addEventListener('DOMContentLoaded', () => {
     ring.classList.remove('active');
   });
 
-  const interactiveElements = document.querySelectorAll('a, button, input, textarea, .service-card, .glass-panel, .showcase-card');
+  const interactiveElements = document.querySelectorAll(
+    'a, button, input, textarea, .service-card, .glass-panel, .showcase-card, .insight-card, .timeline-body, .faq-item'
+  );
   interactiveElements.forEach((el) => {
     el.addEventListener('mouseenter', () => {
       ring.classList.add('hover');
